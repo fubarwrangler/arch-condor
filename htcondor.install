@@ -1,0 +1,11 @@
+post_install() {
+  getent passwd condor &>/dev/null || useradd -r condor >/dev/null
+}
+
+post_upgrade() {
+  post_install
+}
+
+post_remove() {
+  getent passwd condor &>/dev/null && userdel condor >/dev/null
+}
