@@ -1,5 +1,6 @@
 post_install() {
-  getent passwd condor &>/dev/null || useradd -r condor >/dev/null
+  getent passwd condor &>/dev/null || useradd -r -M -d /var/lib/condor condor >/dev/null
+  chown condor.root /var/{log,lib}/condor /var/lib/condor/{execute,spool}
 }
 
 post_upgrade() {
@@ -8,4 +9,5 @@ post_upgrade() {
 
 post_remove() {
   getent passwd condor &>/dev/null && userdel condor >/dev/null
+  [[ -d /var/log/condor ]] && rm -rf /var/log/condor/
 }
